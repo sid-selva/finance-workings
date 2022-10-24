@@ -59,7 +59,7 @@ asset_returns_dplyr <- prices %>%
 library(tidyquant)
 library(timetk)
 
-prices %>% 
+asset_returns_tq_builtin <- prices %>% 
   tk_tbl(preserve_index = TRUE,
          rename_index = "date") %>% 
   pivot_longer(-date, names_to = "asset", values_to = "returns") %>% 
@@ -70,3 +70,14 @@ prices %>%
   pivot_wider(names_from = asset, values_from = monthly.returns) %>% 
   select(date, symbols) %>% 
   na.omit()
+
+asset_returns_long <- 
+  asset_returns_dplyr %>% 
+  gather(asset, returns, -date)
+
+# Portfolio Weights 
+w <- c(0.25, 
+       0.25, 
+       0.20, 
+       0.20, 
+       0.10)
