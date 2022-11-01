@@ -75,6 +75,30 @@ asset_returns_long <-
   asset_returns_dplyr %>% 
   gather(asset, returns, -date)
 
+# Visualization 
+
+library(highcharter)
+
+asset_returns_long %>% ggplot(aes(x=returns, fill = asset)) + 
+  geom_histogram(alpha = 0.45, binwidth = .005) + 
+  ggtitle("Monthly Returns")
+
+asset_returns_long %>% ggplot(aes(x=returns, fill = asset)) + 
+  geom_histogram(alpha = 0.45, binwidth = .005) + 
+  facet_wrap(~asset) + 
+  ggtitle("Monthly Returns") +
+  theme_update(plot.title = element_text(hjust = 0.5))
+
+asset_returns_long %>% ggplot(aes(x = returns)) + 
+  geom_density(aes(color = asset), alpha = 1) + 
+  geom_histogram(aes(fill = asset), alpha = 0.45, binwidth = .01) + 
+  guides(fill = "none") + 
+  facet_wrap(~asset) + 
+  ggtitle("Monthly Returns") + 
+  xlab("monthly returns") + 
+  ylab("distribution") + 
+  theme_update(plot.title = element_text(hjust = 0.5))
+
 # Portfolio Weights 
 w <- c(0.25, 
        0.25, 
